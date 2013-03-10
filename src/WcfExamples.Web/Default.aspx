@@ -19,7 +19,9 @@
 <asp:Content runat="server" ID="BodyContent" ContentPlaceHolderID="MainContent">
     
     Response from ExampleService.SayHello: <asp:TextBox runat="server" ID="txtResult"></asp:TextBox>
-    
+    <br/>
     Complex object: <asp:TextBox runat="server" ID="txtComplex"></asp:TextBox>
-
+    <br/>
+    Request/Response result: <asp:TextBox runat="server" ID="txtRequestResponseObj"></asp:TextBox>
+    <br/>
 </asp:Content>

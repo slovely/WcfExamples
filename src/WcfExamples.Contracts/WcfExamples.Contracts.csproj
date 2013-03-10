@@ -42,6 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ComplexType.cs" />
+    <Compile Include="IRequestResponseService.cs" />
     <Compile Include="IExampleService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
