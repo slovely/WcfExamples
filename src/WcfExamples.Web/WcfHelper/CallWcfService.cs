@@ -8,14 +8,27 @@ namespace WcfExamples.Web.WcfHelper
 {
     public static class CallWcfService<TServiceType>
     {
-        //TODO: Better caching...
-        private static ConcurrentDictionary<Type, IChannelFactory> _channelFactories = new ConcurrentDictionary<Type, IChannelFactory>();
-
         public static TResult Execute<TResult>(Func<TServiceType, TResult> func)
         {
-            var factory = (ChannelFactory<TServiceType>)_channelFactories.GetOrAdd(typeof (TServiceType), type => new ChannelFactory<TServiceType>(type.Name));
+            var factory = (ChannelFactory<TServiceType>)WcfServiceChannelCache.ChannelFactories.GetOrAdd(typeof (TServiceType), type => new ChannelFactory<TServiceType>(type.Name));
             var channel = factory.CreateChannel();
-            return func(channel);
+            try
+            {
+                var result = func(channel);
+                ((IClientChannel) channel).Close();
+                return result;
+            }
+            catch (FaultException)
+            {
+                ((IClientChannel)channel).Abort();
+                throw;
+            }
         }
+    }
+
+    internal class WcfServiceChannelCache
+    {
+        //THIS IS NOT HOW THINGS SHOULD BE CACHED!!!
+        public static ConcurrentDictionary<Type, IChannelFactory> ChannelFactories = new ConcurrentDictionary<Type, IChannelFactory>();
     }
 }
