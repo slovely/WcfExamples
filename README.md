@@ -70,3 +70,10 @@ This repository also contains a very simple/naive implementation of a request/re
         
 _NOTE_: In reality you'd want to hide the cast to `LoadPersonResponse` which hasn't been implemented yet.
 
+**MVC**
+
+This example now includes a couple of MVC controllers that return data and HTML.  Also added StructureMap as an IoC container to allow WCF services to be injected into the controllers automatically (better than using the CallWcfService above).  Need to create a structuremap convention to get them wired up automatically though.  See the demo.js file for the AJAX details.
+
+Should really change the MVC folder location though, so that it's separated from the WebForms stuff (i.e. move the Controllers/Views/Models folders into a folder called 'mvc' or something).
+
+
