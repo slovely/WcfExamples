@@ -24,4 +24,7 @@
     <br/>
     Request/Response result: <asp:TextBox runat="server" ID="txtRequestResponseObj"></asp:TextBox>
     <br/>
+    
+    <a href="<%= ResolveClientUrl("~/Demo/DisplayView") %>">Go to MVC page</a>
+
 </asp:Content>
