@@ -220,6 +220,7 @@
     <Content Include="Images\orderedList9.png" />
     <Content Include="packages.config" />
     <None Include="Scripts\jquery-1.7.1.intellisense.js" />
+    <Content Include="Scripts\Demo.js" />
     <Content Include="Scripts\jquery-1.7.1.js" />
     <Content Include="Scripts\jquery-1.7.1.min.js" />
     <Content Include="Scripts\jquery-ui-1.8.20.js" />
@@ -303,6 +304,7 @@
   <ItemGroup>
     <Content Include="Views\Demo\DisplayView.cshtml" />
     <Content Include="Views\Web.config" />
+    <Content Include="Views\Demo\Person.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
