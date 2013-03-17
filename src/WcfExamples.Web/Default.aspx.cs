@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Web.UI;
 using WcfExamples.Contracts;
-using WcfExamples.Web.WcfHelper;
+using WcfExamples.Web.Code;
 
 namespace WcfExamples.Web
 {

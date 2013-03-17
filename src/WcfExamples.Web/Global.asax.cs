@@ -6,7 +6,11 @@ using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
 using System.Web.Security;
+using StructureMap;
+using WcfExamples.Contracts;
 using WcfExamples.Web;
+using WcfExamples.Web.Code;
+using WcfExamples.Web.DependencyResolution;
 
 namespace WcfExamples.Web
 {
@@ -31,18 +35,10 @@ namespace WcfExamples.Web
                 "{controller}/{action}/{id}", // URL with parameters
                 new {controller = "Home", action = "Index", id = UrlParameter.Optional} // Parameter defaults
                 );
-        }
 
-        void Application_End(object sender, EventArgs e)
-        {
-            //  Code that runs on application shutdown
+            ObjectFactory.Configure(cfg => cfg.For<IExampleService>().Use(x => new WcfModule().CreateProxy<IExampleService>()));
 
-        }
-
-        void Application_Error(object sender, EventArgs e)
-        {
-            // Code that runs when an unhandled error occurs
-
+            DependencyResolver.SetResolver(new StructureMapDependencyResolver(ObjectFactory.Container));
         }
     }
 }

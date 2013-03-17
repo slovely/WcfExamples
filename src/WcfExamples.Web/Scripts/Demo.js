@@ -2,6 +2,7 @@
 
     $('#btnLoadHtml').on('click', loadPersonHtml);
     $('#btnLoadPersonData').on('click', loadPersonData);
+    $('#btnLoadFromWcfService').on('click', loadFromWcfController);
 
 });
 
@@ -33,6 +34,23 @@ function loadPersonData() {
         },
         error: function (jxhr) { // error callback is called if something goes wrong
             if (typeof (console) != 'undefined') {
+                console.log(jxhr.status);
+                console.log(jxhr.responseText);
+            }
+        }
+    });
+}
+
+function loadFromWcfController() {
+    $.ajax({
+        url: '/Wcf/GetDataFromWcfService',
+        type: 'POST',
+        cache: false,
+        success: function(data) {
+            alert('loaded data: ' + JSON.stringify(data));
+        },
+        error: function(jxhr) { // error callback is called if something goes wrong
+            if (typeof(console) != 'undefined') {
                 console.log(jxhr.status);
                 console.log(jxhr.responseText);
             }
