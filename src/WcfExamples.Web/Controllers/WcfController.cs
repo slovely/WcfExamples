@@ -7,7 +7,7 @@ namespace WcfExamples.Web.Controllers
     {
         private readonly IExampleService _service;
 
-        public WcfController(IExampleService service)
+        public WcfController(IExampleService service, IRequestResponseService service1)
         {
             _service = service;
         }
