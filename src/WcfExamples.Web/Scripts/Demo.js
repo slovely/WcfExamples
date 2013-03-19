@@ -3,6 +3,7 @@
     $('#btnLoadHtml').on('click', loadPersonHtml);
     $('#btnLoadPersonData').on('click', loadPersonData);
     $('#btnLoadFromWcfService').on('click', loadFromWcfController);
+    $('#btnLoadFromDatabase').on('click', loadFromDatabase);
 
 });
 
@@ -57,3 +58,22 @@ function loadFromWcfController() {
         }
     });
 }
+
+function loadFromDatabase() {
+    $.ajax({
+        url: '/Wcf/GetDataFromDapper',
+        type: 'POST',
+        cache: false,
+        data: {id: 1},
+        success: function (data) {
+            alert('loaded data: ' + JSON.stringify(data));
+        },
+        error: function (jxhr) { // error callback is called if something goes wrong
+            if (typeof (console) != 'undefined') {
+                console.log(jxhr.status);
+                console.log(jxhr.responseText);
+            }
+        }
+    });
+}
+
