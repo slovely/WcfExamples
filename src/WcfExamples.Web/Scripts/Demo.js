@@ -4,6 +4,8 @@
     $('#btnLoadPersonData').on('click', loadPersonData);
     $('#btnLoadFromWcfService').on('click', loadFromWcfController);
     $('#btnLoadFromDatabase').on('click', loadFromDatabase);
+    $('#btnAddToDatabase').on('click', savePersonToDatabase);
+    $('#btnLoadPeopleAndAnimals').on('click', loadPeopleAndAnimals);
 
 });
 
@@ -77,3 +79,38 @@ function loadFromDatabase() {
     });
 }
 
+function savePersonToDatabase() {
+    $.ajax({
+        url: '/Wcf/SavePersonToDatabase',
+        type: 'POST',
+        cache: false,
+        data: { Name: $('#txtPersonName').val(), DateOfBirth: $('#txtPersonDateOfBirth').val() },
+        success: function (data) {
+            alert('saved!');
+        },
+        error: function (jxhr) { // error callback is called if something goes wrong
+            alert('oh no, error');
+            if (typeof (console) != 'undefined') {
+                console.log(jxhr.status);
+                console.log(jxhr.responseText);
+            }
+        }
+    });
+}
+
+function loadPeopleAndAnimals() {
+    $.ajax({
+        url: '/Wcf/LoadPeopleAndAnimals',
+        type: 'GET',
+        cache: false,
+        success: function (data) {
+            alert('loaded data: ' + JSON.stringify(data));
+        },
+        error: function (jxhr) { // error callback is called if something goes wrong
+            if (typeof (console) != 'undefined') {
+                console.log(jxhr.status);
+                console.log(jxhr.responseText);
+            }
+        }
+    });
+}

@@ -1,4 +1,6 @@
-﻿using System.Configuration;
+﻿using System;
+using System.Collections.Generic;
+using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.Data.SqlServerCe;
@@ -20,16 +22,33 @@ namespace WcfExamples.Services
 
         public Person GetObjectFromDatabase(int id)
         {
-            //TODO: all the connection, try/catch, etc needs to be abstracted
+            return ExecuteSproc<Person>("LoadPerson", new {id = id});
+        }
+
+        public void SavePerson(Person person)
+        {
+            ExecuteSproc<int>("InsertPerson", new {Name = person.Name, DateOfBirth = person.DateOfBirth});
+        }
+
+        public Tuple<List<Animal>, List<Person>> LoadPeopleAndAnimals()
+        {
+            Tuple<List<Animal>, List<Person>> result;
+            _connection.Open();
+            using (var multi = _connection.QueryMultiple("ReturnAllPeopleAndAnimals", commandType: CommandType.StoredProcedure))
+            {
+                result = new Tuple<List<Animal>, List<Person>>(
+                    multi.Read<Animal>().ToList(), multi.Read<Person>().ToList());
+            }
+            _connection.Close();
+            return result;
+        }
+
+        private TResult ExecuteSproc<TResult>(string sql, object parameters)
+        {
+            _connection.Open();
             try
             {
-                _connection.Open();
-                return _connection.Query<Person>("LoadPerson", new {id = id}, commandType: CommandType.StoredProcedure).SingleOrDefault();
-            }
-            catch
-            {
-                int a = 123;
-                throw;
+                return _connection.Query<TResult>(sql, parameters, commandType: CommandType.StoredProcedure).SingleOrDefault();
             }
             finally
             {

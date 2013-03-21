@@ -1,4 +1,5 @@
-﻿using System.Web.Mvc;
+﻿using System;
+using System.Web.Mvc;
 using WcfExamples.Contracts;
 
 namespace WcfExamples.Web.Controllers
@@ -27,5 +28,18 @@ namespace WcfExamples.Web.Controllers
             var result = _databaseService.GetObjectFromDatabase(id);
             return Json(result);
         }
+
+        [HttpPost]
+        public void SavePersonToDatabase(Contracts.Person person)
+        { 
+            _databaseService.SavePerson(person);
+        }
+
+        [HttpGet]
+        public JsonResult LoadPeopleAndAnimals()
+        {
+            return Json(_databaseService.LoadPeopleAndAnimals(), JsonRequestBehavior.AllowGet);
+        }
+
     }
 }

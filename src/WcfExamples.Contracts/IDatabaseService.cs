@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Runtime.Serialization;
 using System.ServiceModel;
 
@@ -9,6 +10,12 @@ namespace WcfExamples.Contracts
     {
         [OperationContract]
         Person GetObjectFromDatabase(int id);
+
+        [OperationContract]
+        void SavePerson(Person person);
+
+        [OperationContract]
+        Tuple<List<Animal>, List<Person>> LoadPeopleAndAnimals();
     }
 
     [DataContract]
@@ -22,5 +29,15 @@ namespace WcfExamples.Contracts
 
         [DataMember]
         public DateTime DateOfBirth { get; set; }
+    }
+
+    [DataContract]
+    public class Animal
+    {
+        [DataMember]
+        public int Id { get; set; }
+
+        [DataMember]
+        public string Species { get; set; }
     }
 }
