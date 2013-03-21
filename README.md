@@ -1,7 +1,11 @@
 WcfExamples
 ===========
 
-_**NOTE:**_ This repository is here to demonstrate a very specific example, please don't think it is in anyway representative of best practises or worthy of production use!  Static methods, no IoC, no tests, WebForms are just some of the bad things in this repo!
+_**NOTE:**_ If you have stumbled upon this repository, please note that it is here to demonstrate a very specific example, please don't think it is in anyway representative of best practises or worthy of production use!  Static methods, no IoC, no tests, WebForms are just some of the bad things in this repo!  In other words, ignore it!
+
+Building
+--
+Get the code, open in VS2012 and it should run.  NB you need to have enabled package restore in Nuget (see: http://blog.nuget.org/20120518/package-restore-and-consent.html)
 
 Modifying an existing service
 ----
@@ -70,10 +74,15 @@ This repository also contains a very simple/naive implementation of a request/re
         
 _NOTE_: In reality you'd want to hide the cast to `LoadPersonResponse` which hasn't been implemented yet.
 
-**MVC**
+MVC
+===
 
 This example now includes a couple of MVC controllers that return data and HTML.  Also added StructureMap as an IoC container to allow WCF services to be injected into the controllers automatically (better than using the CallWcfService above).  Need to create a structuremap convention to get them wired up automatically though.  See the demo.js file for the AJAX details.
 
 Should really change the MVC folder location though, so that it's separated from the WebForms stuff (i.e. move the Controllers/Views/Models folders into a folder called 'mvc' or something).
+
+Dapper (DB Access)
+=============
+See the 'DatabaseService' WCF Service implementation for some examples of using Dapper for accesing a database via stored procedures.
 
 
