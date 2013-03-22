@@ -7,6 +7,9 @@ Building
 --
 Get the code, open in VS2012 and it should run.  NB you need to have enabled package restore in Nuget (see: http://blog.nuget.org/20120518/package-restore-and-consent.html)
 
+WebForms
+========
+
 Modifying an existing service
 ----
  - Modify the service interface in the Contracts assembly, adding any types required.
@@ -81,6 +84,10 @@ This example now includes a couple of MVC controllers that return data and HTML.
 
 Should really change the MVC folder location though, so that it's separated from the WebForms stuff (i.e. move the Controllers/Views/Models folders into a folder called 'mvc' or something).
 
+Using a WCF service
+----
+To use a service in MVC, just add the [ServiceContract] interface to the Controller parameter.  StructureMap will automatically wire up the service for you (and the opening/closing/disposing of the channel will be handled).
+ 
 Dapper (DB Access)
 =============
 See the 'DatabaseService' WCF Service implementation for some examples of using Dapper for accesing a database via stored procedures.
