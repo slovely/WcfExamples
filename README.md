@@ -84,8 +84,8 @@ This example now includes a couple of MVC controllers that return data and HTML.
 
 Should really change the MVC folder location though, so that it's separated from the WebForms stuff (i.e. move the Controllers/Views/Models folders into a folder called 'mvc' or something).
 
-Using a WCF service
-----
+**Using a WCF service**
+
 To use a service in MVC, just add the [ServiceContract] interface to the Controller parameter.  StructureMap will automatically wire up the service for you (and the opening/closing/disposing of the channel will be handled).
  
 Dapper (DB Access)
