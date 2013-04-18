@@ -1,16 +1,17 @@
 ﻿using System;
-using System.Collections.Concurrent;
 using System.ServiceModel;
-using System.ServiceModel.Channels;
 
 namespace WcfExamples.Web.Code
 {
     public static class CallWcfService<TServiceType>
     {
+        private static volatile ChannelFactory<TServiceType> _channelFactoryForTServiceType;
+        private static object _objectSync = new object();
+
         public static TResult Execute<TResult>(Func<TServiceType, TResult> func)
         {
-            var factory = (ChannelFactory<TServiceType>)WcfServiceChannelCache.ChannelFactories.GetOrAdd(typeof (TServiceType), type => new ChannelFactory<TServiceType>(type.Name));
-            var channel = factory.CreateChannel();
+            EnsureChannelFactory();
+            var channel = _channelFactoryForTServiceType.CreateChannel();
             try
             {
                 var result = func(channel);
@@ -23,11 +24,19 @@ namespace WcfExamples.Web.Code
                 throw;
             }
         }
-    }
 
-    internal class WcfServiceChannelCache
-    {
-        //THIS IS NOT HOW THINGS SHOULD BE CACHED!!!
-        public static ConcurrentDictionary<Type, IChannelFactory> ChannelFactories = new ConcurrentDictionary<Type, IChannelFactory>();
+        private static void EnsureChannelFactory()
+        {
+            if (_channelFactoryForTServiceType == null)
+            {
+                lock (_objectSync)
+                {
+                    if (_channelFactoryForTServiceType == null)
+                    {
+                        _channelFactoryForTServiceType = new ChannelFactory<TServiceType>(typeof (TServiceType).Name);
+                    }
+                }
+            }
+        }
     }
 }
