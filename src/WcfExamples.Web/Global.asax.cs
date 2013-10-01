@@ -6,6 +6,7 @@ using System.Web.Optimization;
 using System.Web.Routing;
 using StructureMap;
 using WcfExamples.Contracts;
+using WcfExamples.Web.Code;
 using WcfExamples.Web.DependencyResolution;
 
 namespace WcfExamples.Web
@@ -42,14 +43,28 @@ namespace WcfExamples.Web
 
         private static void SetupIoC()
         {
-            ObjectFactory.Initialize(x => x.Configure(
-                cfg => cfg.Scan(scan =>
-                    {
-                        scan.TheCallingAssembly();
-                        scan.AssemblyContainingType<IRequestResponseService>();
-                        scan.Convention<StructureMapWcfProxyConvention>();
-                        scan.WithDefaultConventions();
-                    })));
+            ObjectFactory.Initialize(x =>
+                {
+                    x.Configure(
+                        cfg => cfg.Scan(scan =>
+                            {
+                                scan.TheCallingAssembly();
+                                scan.AssemblyContainingType<IRequestResponseService>();
+                                scan.Convention<StructureMapWcfProxyConvention>();
+                                scan.WithDefaultConventions();
+
+                            }));
+
+                    //Example of conditionally using a different implementation
+                    //(obviously you wouldn't normally conditionally cache something... not a real-world example)
+                    //But the condition could be anything - check current user, whatever...
+                    x.For<IAopExampleService>().ConditionallyUse(o =>
+                        {
+                            o.If(c => HttpContext.Current.Request.Params["cached"] == "true").ThenIt.Is.Type<AopExampleService>().EnrichWith(svc => new CachedAopService(svc));
+                            o.TheDefault.Is.Type<AopExampleService>();
+                        });
+
+                });
 
             DependencyResolver.SetResolver(new StructureMapDependencyResolver(ObjectFactory.Container));
             GlobalConfiguration.Configuration.DependencyResolver = new StructureMapDependencyResolver(ObjectFactory.Container);

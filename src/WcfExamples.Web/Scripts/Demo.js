@@ -114,3 +114,21 @@ function loadPeopleAndAnimals() {
         }
     });
 }
+
+function getTheCurrentTimeFromAopService(cached) {
+    $.ajax({
+        url: '/Aop/GetTime',
+        type: 'GET',
+        cache: false,
+        data: { cached: cached },
+        success: function(data) {
+            $('#lblCurrentTime').text("The current time on the server is: " + data);
+        },
+        error: function(jxhr) {
+            if (typeof(console) != 'undefined') {
+                console.log(jxhr.status);
+                console.log(jxhr.responseText);
+            }
+        }
+    });
+}

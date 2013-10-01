@@ -26,5 +26,8 @@
     <br/>
     
     <a href="<%= ResolveClientUrl("~/Demo/DisplayView") %>">Go to MVC page</a>
+    
+    <a href="<%= ResolveClientUrl("~/Aop/") %>">Go to AOP (using MVC) page</a>
+
 
 </asp:Content>

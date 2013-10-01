@@ -1,0 +1,27 @@
+﻿@model dynamic
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>AOP Examples</title>
+        <script type="text/javascript" src="~/Scripts/jquery-1.7.1.js"></script>
+        <script type="text/javascript" src="~/Scripts/Demo.js"></script>
+    </head>
+    <body>
+        <div>
+            
+            <div>
+                <span id="lblCurrentTime"></span>
+            </div>
+
+            <button onclick="getTheCurrentTimeFromAopService(false);">Get current time (uncached)</button>
+            <button onclick="getTheCurrentTimeFromAopService(true);">Get current time (cached)</button>
+
+        </div>
+    </body>
+</html>
